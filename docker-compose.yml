@@ -1,41 +1,35 @@
 version: "2"
 
 services:
+    db:
+        image: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: root-password
+        # TODO: Figure out mounted volumes that work via Docker Toolbox
+        # (probably just need the right permissions on the directories)
+        # volumes:
+        #     - "./mysql:/var/lib/mysql"
+
+
     wordpress:
         image: wordpress
         links:
-            - "wordpressdb:mysql"
+            - "db:mysql"
         ports:
             - "8001:80"
         environment:
             MYSQL_PORT_3306_TCP: "true"
-            WORDPRESS_DB_PASSWORD: x
-
-    wordpressdb:
-        image: mariadb
-        environment:
-            MYSQL_DATABASE: wordpress
-            MYSQL_ROOT_PASSWORD: x
-        # volumes:
-        #     - "./mysql:/var/lib/mysql"
+            WORDPRESS_DB_PASSWORD: root-password
 
     joomla:
         image: joomla
         links:
-            - "joomladb:mysql"
+            - "db:mysql"
         ports:
             - "8002:80"
         environment:
             MYSQL_PORT_3306_TCP: "true"
-            JOOMLA_DB_PASSWORD: x
-
-    joomladb:
-        image: mariadb
-        environment:
-            MYSQL_DATABASE: joomla
-            MYSQL_ROOT_PASSWORD: x
-        # volumes:
-        #     - "./mysql:/var/lib/mysql"
+            JOOMLA_DB_PASSWORD: root-password
 
     drupal:
         image: drupal
