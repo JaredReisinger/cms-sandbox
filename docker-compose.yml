@@ -1,0 +1,51 @@
+version: "2"
+
+services:
+    wordpress:
+        image: wordpress
+        links:
+            - "wordpressdb:mysql"
+        ports:
+            - "8001:80"
+        environment:
+            MYSQL_PORT_3306_TCP: "true"
+            WORDPRESS_DB_PASSWORD: x
+
+    wordpressdb:
+        image: mariadb
+        environment:
+            MYSQL_DATABASE: wordpress
+            MYSQL_ROOT_PASSWORD: x
+        # volumes:
+        #     - "./mysql:/var/lib/mysql"
+
+    joomla:
+        image: joomla
+        links:
+            - "joomladb:mysql"
+        ports:
+            - "8002:80"
+        environment:
+            MYSQL_PORT_3306_TCP: "true"
+            JOOMLA_DB_PASSWORD: x
+
+    joomladb:
+        image: mariadb
+        environment:
+            MYSQL_DATABASE: joomla
+            MYSQL_ROOT_PASSWORD: x
+        # volumes:
+        #     - "./mysql:/var/lib/mysql"
+
+    drupal:
+        image: drupal
+        ports:
+            - "8003:80"
+
+    ghost:
+        image: ghost
+        ports:
+            - "8004:2368"
+
+
+volumes: {}
